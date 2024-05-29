@@ -1,5 +1,5 @@
 import logging
-import strings
+import string
 from enum import Enum
 from abc import abstractmethod, ABC
 from queue import Queue
@@ -74,7 +74,7 @@ class ErrorEmail(Email):
     def __init__(self, booking, subject, error):
         super().__init__(subject)
         self.booking = booking
-        self.error = error
+        self.error = error if error[-1] in string.punctuation else error + "."
         self.subject = subject
 
     def required_permission(self):
@@ -84,8 +84,7 @@ class ErrorEmail(Email):
         title = f"Error en la reserva del " \
                 f"{DAYS_OF_WEEK[self.booking.dow]} a las " \
                 f"{self.booking.time.strftime('%H:%M')}"
-        message = message if message[-1] in strings.PUNCTUATION else message + "."
-        return _HTML_TEMPLATE.format(_HOST, title, self.message, self.booking.url,
+        return _HTML_TEMPLATE.format(_HOST, title, self.error, self.booking.url,
                                      self.booking.id)
 
     def get_plain_body(self):
@@ -99,7 +98,7 @@ class SuccessEmail(Email):
     def __init__(self, booking, subject, message):
         super().__init__(subject)
         self.booking = booking
-        self.message = message
+        self.message = message if message[-1] in string.punctuation else message + "."
 
     def required_permission(self):
         return EmailPermissions.SUCCESS
@@ -108,7 +107,6 @@ class SuccessEmail(Email):
         title = f"Reservada con éxito la clase del " \
                 f"{DAYS_OF_WEEK[self.booking.dow]} a las " \
                 f"{self.booking.time.strftime('%H:%M')}"
-        message = message if message[-1] in strings.PUNCTUATION else message + "."
         return _HTML_TEMPLATE.format(_HOST, title, self.message, self.booking.url,
                                      self.booking.id)
 
