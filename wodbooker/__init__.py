@@ -149,6 +149,5 @@ thread_cleaner = threading.Thread(target=_cleaning_loop,
 thread_cleaner.start()
 
 thread_mailer = threading.Thread(target=process_maling_queue,
-                                 args=(app.app_context(),),
                                  daemon=True, name="mailer")
 thread_mailer.start()
