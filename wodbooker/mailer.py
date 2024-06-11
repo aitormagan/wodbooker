@@ -4,7 +4,7 @@ from enum import Enum
 from abc import abstractmethod, ABC
 from queue import Queue
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, EndpointConnectionError
 from .models import User, Booking
 from .constants import DAYS_OF_WEEK
 
@@ -192,7 +192,7 @@ def _send_email(to: str, email: Email):
             Source=_SENDER,
         )
         logging.info("Email '%s' sent to %s successfully", email.get_subject(), to)
-    except ClientError:
+    except (ClientError, EndpointConnectionError):
         logging.exception("Error sending email")
 
 
