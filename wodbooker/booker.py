@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, date, time
 from abc import ABC, abstractmethod
+import random
 import logging
 import pause
 import pytz
@@ -120,6 +121,10 @@ class Booker(StoppableThread):
 
                     # Refresh the scraper in case a new one is avaiable
                     scraper = get_scraper(self._booking.user.email, self._booking.user.cookie)
+                    # generate a random number between 30 and 6o seconds to avoid being detected as a bot
+                    sleep = random.randint(15, 60)
+                    logging.info("Sleeping for %s seconds", sleep)
+                    pause.seconds(sleep)
                     scraper.book(self._booking.url, datetime_to_book)
                     logging.info("Booking for user %s at %s completed successfully", self._booking.user.email, datetime_to_book.strftime('%d/%m/%Y %H:%M'))
                     event = Event(booking_id=self._booking.id, event=EventMessage.BOOKING_COMPLETED % day_to_book.strftime('%d/%m/%Y'))
