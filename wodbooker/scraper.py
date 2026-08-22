@@ -109,7 +109,7 @@ class Scraper():
 
         data_confirm = {
             'ctl00$ctl00$body$ctl00': 'ctl00$ctl00$body$ctl00|ctl00$ctl00$body$body$CtlConfiar$CtlSeguro',
-            'ctl00$ctl00$body$body$CtlConfiar$CtlSeguro': 'Recordar\n'
+            'ctl00$ctl00$body$body$CtlConfiar$dispositivo': 'CtlSeguro'
         }
 
         confirm_login_request = self._login_request(login_url, viewstatec_confirm,
