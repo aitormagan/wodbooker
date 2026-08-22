@@ -121,8 +121,8 @@ class Booker(StoppableThread):
 
                     # Refresh the scraper in case a new one is avaiable
                     scraper = get_scraper(self._booking.user.email, self._booking.user.cookie)
-                    # generate a random number between 30 and 6o seconds to avoid being detected as a bot
-                    sleep = random.randint(15, 60)
+                    # generate a random number between 1 and 8 seconds to avoid being detected as a bot
+                    sleep = random.randint(1, 8)
                     logging.info("Sleeping for %s seconds", sleep)
                     pause.seconds(sleep)
                     scraper.book(self._booking.url, datetime_to_book)
